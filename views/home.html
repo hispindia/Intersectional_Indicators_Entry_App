@@ -1,0 +1,213 @@
+<div id="leftBar">
+    <d2-left-bar></d2-left-bar>
+
+    <div id="orgUnitTree">
+        <ul>
+        </ul>
+    </div>
+</div>
+
+<div class="row" id="mainPage">
+    <div id="mainDiv" class="col-sm-8 col-md-6">
+        <legend>Intersectional Indicators Entry</legend>
+        <table class="table table-borderless table-striped">
+            <tr>
+                <td>{{'orgUnitLabel' | translate}}</td>
+                <td>
+                    <input type="text" class="form-control" value="{{selectedOrgUnit.name|| 'Please Select'| translate}}" ng-disabled="true">
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    {{'Select Program Name'| translate}}
+                </td>
+                <td class='col-sm-4 col-md-3'>
+                    <select id="programsel" ng-model="selectedProgram.name"  x-ng-change="getAllPrograms(selectedOrgUnit,selectedProgram.name)"  class="form-control"  ng-options="program.name for program in programs1 | orderBy: 'name'">
+                        <option value="">Select Program Name</option>
+                    </select>
+                </td>
+
+            </tr>
+           <!-- <tr>
+                <td >
+                    {{'Select Data Set'| translate}}
+                </td>
+                <td class='col-sm-4 col-md-3'>
+                    <select ng-model="selectedProgram.dataset"  x-ng-change="getDataSets(selectedProgram.dataset)"  class="form-control"  ng-options="program.name for program in programs | orderBy: 'name'">
+                        <option value="">Select Data Set</option>
+                    </select>
+                </td>
+            </tr>-->
+             <tr>
+                <td>
+                   {{'Select the required Indicator values'| translate}}
+                </td>
+                <td>
+                    <select ng-model="selectedIndicator" id="indicatorSelection"  class="form-control">
+                    <option value="">Please Select</option>
+                    <option value="1">Active Patient Count</option>
+                    <option value="2">Diabetes Patient Count</option>            
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{'Select Period Year'| translate}}  
+                </td>
+                <td>
+                    <select id="select2" ng-model="selectedYear" class="form-control">
+                    <option value="">Select Year</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   {{'Select Period Type'| translate}}
+                </td>
+                <td class='col-sm-4 col-md-3'>
+                    <select ng-model="selectedPeriod" id="selection" x-ng-change="changeIt()" class="form-control">
+                    <option value="">Select Period Type</option>
+                    <option value="1">Monthly</option>
+                    <option value="2">Quaterly</option>            
+                    <option value="3">Half - yearly</option>            
+                    <option value="4">Annual</option>            
+                </select>
+                </td>
+            </tr>
+            </table>
+            <!--<tr>
+                <td>
+                    Select Period
+                </td>
+                <td class='col-sm-4 col-md-3'>
+                    <select ng-model="selectedProgram1.name" x-ng-change="submit(selectedProgram1.name)" id="importPeriod"  class="form-control" >
+                        <option value="">Select Period</option>
+                    </select>
+                </td>
+            </tr>-->
+            <div id="mainDiv1">
+
+            </div>
+            <table class="table table-borderless table-striped">
+            <tr>
+                <td>Active patients during the period :</td>
+                <td>
+                    <input type="text" id="totaleventcount" class="form-control" value="{{}}" ng-disabled="true">
+                </td>
+            </tr>
+            <tr>
+                <td>Active patients at the end of a period :</td>
+                <td>
+                    <input type="text" id="endeventcount" class="form-control" value="{{}}" ng-disabled="true">
+                </td>
+            </tr>             
+        </table>
+
+        <div class="col-md-6 trim" id="mainDiv2">
+
+         </div>
+</div>
+     
+    <style>
+        #reporttable
+        {
+            width:100%;
+
+        }
+        .arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+
+            border-bottom: 5px solid black;
+        }
+
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+
+            border-top: 20px solid #f00;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#getall_go').on('click', function() {
+                var url = 'views/home.html';
+                $('#tabledata').load(url + ' #tabledata1');
+            });
+        });
+
+    </script>
+    <div id ="tabledata" style=" margin-top: 250px;width:100%;height:200px;" >
+        <table id="reporttable" class="tablesorter" style="text-align: center"></table>
+         </div>
+
+        <div id ="tabledata1" style=" margin-top: 250px;width:100%;height:200px;">
+        <table id="reporttable" class="tablesorter" style="text-align: center"></table>
+            </div>
+</div>
+
+<div class="row" ng-if="selectedOrgUnit.programs.length > 0 && !selectedProgram">
+    <div class="col-sm-8 col-md-6 vertical-spacing">
+        <div class="alert alert-warning">{{'please_select_program_report'| translate}}</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
